@@ -6,10 +6,10 @@ namespace LENLCS___Długość_najdłuższego_wspólnego_podciągu
 {
     class Program
     {
-        static string u, v;
         static void Main(string[] args)
         {
             int D, n, m;
+            string u, v;
             D = Convert.ToInt32(Console.ReadLine());
             for (int i = 0; i < D; i++)
             {
