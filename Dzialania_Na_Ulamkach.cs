@@ -4,6 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+////////////////////////////
+////wersja rekurencyjna/////
+////////////////////////////
+
 namespace Dzialania_Na_Ulamkach
 {
     class Ulamek
