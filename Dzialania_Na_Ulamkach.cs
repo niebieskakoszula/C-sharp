@@ -4,11 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
-////////////////////////////
-////wersja rekurencyjna/////
-////////////////////////////
-
 namespace Dzialania_Na_Ulamkach
 {
     class Ulamek
@@ -18,6 +13,12 @@ namespace Dzialania_Na_Ulamkach
         {
             licz = Convert.ToInt32(wejscie.Split('/')[0]);
             mian = Convert.ToInt32(wejscie.Split('/')[1]);
+            Skroc();
+        }
+        public Ulamek(int l, int m)
+        {
+            licz = l;
+            mian = m;
             Skroc();
         }
         void Skroc()
@@ -62,12 +63,12 @@ namespace Dzialania_Na_Ulamkach
     {
         static void Main(string[] args)
         {
-            Ulamek u = RozpoznajNawiasy(Console.ReadLine());
+            Ulamek u = ObliczUlamek(Console.ReadLine());
             Console.WriteLine(u.licz);
             Console.WriteLine(u.mian);
             Console.ReadKey();
         }
-        public static Ulamek RozpoznajNawiasy(string wejscie)
+        public static Ulamek ObliczUlamek(string wejscie)
         {
             string pierwszy = "", drugi = "";
             int poziom = 0, aktualny = 0, temp = 1;
@@ -90,10 +91,10 @@ namespace Dzialania_Na_Ulamkach
             {
                 switch (znak)
                 {
-                    case '+': return Dzialania.Dodawanie(RozpoznajNawiasy(pierwszy), RozpoznajNawiasy(drugi));
-                    case '-': return Dzialania.Odejmowanie(RozpoznajNawiasy(pierwszy), RozpoznajNawiasy(drugi));
-                    case '*': return Dzialania.Mnozenie(RozpoznajNawiasy(pierwszy), RozpoznajNawiasy(drugi));
-                    default: return Dzialania.Dzielenie(RozpoznajNawiasy(pierwszy), RozpoznajNawiasy(drugi));
+                    case '+': return Dzialania.Dodawanie(ObliczUlamek(pierwszy), ObliczUlamek(drugi));
+                    case '-': return Dzialania.Odejmowanie(ObliczUlamek(pierwszy), ObliczUlamek(drugi));
+                    case '*': return Dzialania.Mnozenie(ObliczUlamek(pierwszy), ObliczUlamek(drugi));
+                    default: return Dzialania.Dzielenie(ObliczUlamek(pierwszy), ObliczUlamek(drugi));
                 }
             }
             else
