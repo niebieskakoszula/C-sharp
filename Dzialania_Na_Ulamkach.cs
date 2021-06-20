@@ -1,54 +1,50 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Dzialania_Na_Ulamkach
+namespace Operations_On_Fractions
 {
-    class Ulamek
+    class Fraction
     {
-        public int licz, mian;
-        public Ulamek(string wejscie)
+        public int counter, denominator;
+        public Fraction(string input)
         {
-            licz = Convert.ToInt32(wejscie.Split('/')[0]);
-            mian = Convert.ToInt32(wejscie.Split('/')[1]);
-            Skroc();
+            counter = Convert.ToInt32(input.Split('/')[0]);
+            denominator = Convert.ToInt32(input.Split('/')[1]);
+            Shortening();
         }
-        public Ulamek(int l, int m)
+        public Fraction(int c, int d)
         {
-            licz = l;
-            mian = m;
-            Skroc();
+            counter = c;
+            denominator = d;
+            Shortening();
         }
-        void Skroc()
+        void Shortening()
         {
-            int dzielnik = Dzialania.NWD(licz, mian);
-            licz /= dzielnik;
-            mian /= dzielnik;
+            int factor = Operations.Greatest_Common_Factor(counter, denominator);
+            counter /= factor;
+            denominator /= factor;
         }
     }
-    static class Dzialania
+    static class Operations
     {
-        static public Ulamek Dodawanie(Ulamek u1, Ulamek u2)
+        static public Fraction Fraction_Addition(Fraction first, Fraction second)
         {
-            if (u1.mian == u2.mian) return new Ulamek(u1.licz + u2.licz, u1.mian);
-            else return new Ulamek(u1.licz * u2.mian + u2.licz * u1.mian, u1.mian * u2.mian);
+            if (first.denominator == second.denominator) return new Fraction(first.counter + second.counter, first.denominator);
+            else return new Fraction(first.counter * second.denominator + second.counter * first.denominator, first.denominator * second.denominator);
         }
-        static public Ulamek Odejmowanie(Ulamek u1, Ulamek u2)
+        static public Fraction Frction_Substraction(Fraction first, Fraction second)
         {
-            if (u1.mian == u2.mian) return new Ulamek(u1.licz - u2.licz, u1.mian);
-            else return new Ulamek(u1.licz * u2.mian - u2.licz * u1.mian, u1.mian * u2.mian);
+            if (first.denominator == second.denominator) return new Fraction(first.counter - second.counter, first.denominator);
+            else return new Fraction(first.counter * second.denominator - second.counter * first.denominator, first.denominator * second.denominator);
         }
-        static public Ulamek Mnozenie(Ulamek u1, Ulamek u2)
+        static public Fraction Fraction_Multiplication(Fraction first, Fraction second)
         {
-            return new Ulamek(u1.licz * u2.licz, u1.mian * u2.mian);
+            return new Fraction(first.counter * second.counter, first.denominator * second.denominator);
         }
-        static public Ulamek Dzielenie(Ulamek u1, Ulamek u2)
+        static public Fraction Fraction_Division(Fraction first, Fraction second)
         {
-            return new Ulamek(u1.licz * u2.mian, u1.mian * u2.licz);
+            return new Fraction(first.counter * second.denominator, first.denominator * second.counter);
         }
-        static public int NWD(int x, int y)
+        static public int Greatest_Common_Factor(int x, int y)
         {
             while (x != y)
             {
@@ -63,43 +59,43 @@ namespace Dzialania_Na_Ulamkach
     {
         static void Main(string[] args)
         {
-            Ulamek u = ObliczUlamek(Console.ReadLine());
-            Console.WriteLine(u.licz);
-            Console.WriteLine(u.mian);
+            Fraction fraction = Calculate_Fraction(Console.ReadLine());
+            Console.WriteLine(fraction.counter);
+            Console.WriteLine(fraction.denominator);
             Console.ReadKey();
         }
-        public static Ulamek ObliczUlamek(string wejscie)
+        public static Fraction Calculate_Fraction(string input)
         {
-            string pierwszy = "", drugi = "";
-            int poziom = 0, aktualny = 0, temp = 1;
-            char znak = ' ';
+            string first_sub = "", second_sub = "";
+            int level = 0, current = 0, start = 1;
+            char operation = ' ';
 
-            for (int i = 1; i < wejscie.Length - 1; i++)
+            for (int i = 1; i < input.Length - 1; i++)
             {
-                if (wejscie[i] == '(') { poziom++; aktualny++; }
-                else if (wejscie[i] == ')') aktualny--;
+                if (input[i] == '(') { level++; current++; }
+                else if (input[i] == ')') current--;
 
-                if (aktualny == 0)
+                if (current == 0)
                 {
-                    if(pierwszy == "") { pierwszy = wejscie.Substring(temp, i - temp + 1); znak = wejscie[i + 1]; i += 2; temp = i; }
-                    else drugi = wejscie.Substring(temp, i - temp + 2);
+                    if (first_sub == "") { first_sub = input.Substring(start, i - start + 1); operation = input[i + 1]; i += 2; start = i; }
+                    else second_sub = input.Substring(start, i - start + 2);
                 }
             }
-            
 
-            if(poziom != 0)
+
+            if (level != 0)
             {
-                switch (znak)
+                switch (operation)
                 {
-                    case '+': return Dzialania.Dodawanie(ObliczUlamek(pierwszy), ObliczUlamek(drugi));
-                    case '-': return Dzialania.Odejmowanie(ObliczUlamek(pierwszy), ObliczUlamek(drugi));
-                    case '*': return Dzialania.Mnozenie(ObliczUlamek(pierwszy), ObliczUlamek(drugi));
-                    default: return Dzialania.Dzielenie(ObliczUlamek(pierwszy), ObliczUlamek(drugi));
+                    case '+': return Operations.Fraction_Addition(Calculate_Fraction(first_sub), Calculate_Fraction(second_sub));
+                    case '-': return Operations.Frction_Substraction(Calculate_Fraction(first_sub), Calculate_Fraction(second_sub));
+                    case '*': return Operations.Fraction_Multiplication(Calculate_Fraction(first_sub), Calculate_Fraction(second_sub));
+                    default: return Operations.Fraction_Division(Calculate_Fraction(first_sub), Calculate_Fraction(second_sub));
                 }
             }
             else
             {
-                return new Ulamek(wejscie.Substring(1, wejscie.Length - 2));
+                return new Fraction(input.Substring(1, input.Length - 2));
             }
         }
 
