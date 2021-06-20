@@ -19,28 +19,28 @@ namespace Operations_On_Fractions
         }
         void Shortening()
         {
-            int factor = Operations.Greatest_Common_Factor(counter, denominator);
+            int factor = OperationsOnFractions.Greatest_Common_Factor(counter, denominator);
             counter /= factor;
             denominator /= factor;
         }
     }
-    static class Operations
+    static class OperationsOnFractions
     {
-        static public Fraction Fraction_Addition(Fraction first, Fraction second)
+        static public Fraction Addition(Fraction first, Fraction second)
         {
             if (first.denominator == second.denominator) return new Fraction(first.counter + second.counter, first.denominator);
             else return new Fraction(first.counter * second.denominator + second.counter * first.denominator, first.denominator * second.denominator);
         }
-        static public Fraction Frction_Substraction(Fraction first, Fraction second)
+        static public Fraction Substraction(Fraction first, Fraction second)
         {
             if (first.denominator == second.denominator) return new Fraction(first.counter - second.counter, first.denominator);
             else return new Fraction(first.counter * second.denominator - second.counter * first.denominator, first.denominator * second.denominator);
         }
-        static public Fraction Fraction_Multiplication(Fraction first, Fraction second)
+        static public Fraction Multiplication(Fraction first, Fraction second)
         {
             return new Fraction(first.counter * second.counter, first.denominator * second.denominator);
         }
-        static public Fraction Fraction_Division(Fraction first, Fraction second)
+        static public Fraction Division(Fraction first, Fraction second)
         {
             return new Fraction(first.counter * second.denominator, first.denominator * second.counter);
         }
@@ -87,10 +87,10 @@ namespace Operations_On_Fractions
             {
                 switch (operation)
                 {
-                    case '+': return Operations.Fraction_Addition(Calculate_Fraction(first_sub), Calculate_Fraction(second_sub));
-                    case '-': return Operations.Frction_Substraction(Calculate_Fraction(first_sub), Calculate_Fraction(second_sub));
-                    case '*': return Operations.Fraction_Multiplication(Calculate_Fraction(first_sub), Calculate_Fraction(second_sub));
-                    default: return Operations.Fraction_Division(Calculate_Fraction(first_sub), Calculate_Fraction(second_sub));
+                    case '+': return OperationsOnFractions.Addition(Calculate_Fraction(first_sub), Calculate_Fraction(second_sub));
+                    case '-': return OperationsOnFractions.Substraction(Calculate_Fraction(first_sub), Calculate_Fraction(second_sub));
+                    case '*': return OperationsOnFractions.Multiplication(Calculate_Fraction(first_sub), Calculate_Fraction(second_sub));
+                    default: return OperationsOnFractions.Division(Calculate_Fraction(first_sub), Calculate_Fraction(second_sub));
                 }
             }
             else
