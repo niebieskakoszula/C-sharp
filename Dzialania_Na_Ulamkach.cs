@@ -19,9 +19,18 @@ namespace Operations_On_Fractions
         }
         void Shortening()
         {
-            int factor = OperationsOnFractions.Greatest_Common_Factor(counter, denominator);
+            int factor = Greatest_Common_Factor(counter, denominator);
             counter /= factor;
             denominator /= factor;
+        }
+        int Greatest_Common_Factor(int x, int y)
+        {
+            while (x != y)
+            {
+                if (x > y) x -= y;
+                else y -= x;
+            }
+            return x;
         }
     }
     static class OperationsOnFractions
@@ -43,15 +52,6 @@ namespace Operations_On_Fractions
         static public Fraction Division(Fraction first, Fraction second)
         {
             return new Fraction(first.counter * second.denominator, first.denominator * second.counter);
-        }
-        static public int Greatest_Common_Factor(int x, int y)
-        {
-            while (x != y)
-            {
-                if (x > y) x -= y;
-                else y -= x;
-            }
-            return x;
         }
     }
 
