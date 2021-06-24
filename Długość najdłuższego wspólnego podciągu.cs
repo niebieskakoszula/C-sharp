@@ -4,41 +4,62 @@ using System;
 
 namespace LENLCS___Długość_najdłuższego_wspólnego_podciągu
 {
+    class Substring_Calculator
+    {
+        static string word;
+        static int word_lenght;
+
+        static string sub_word;
+        static int sub_word_lenght;
+
+        static int[,] result;
+
+        public static int Find_Longest_Substring_Lenght()
+        {
+            Read_Input();
+            Initialize();
+            Calculate();
+            return result[word_lenght,sub_word_lenght];
+        }
+
+        static void Read_Input()
+        {
+            word_lenght = Convert.ToInt32(Console.ReadLine());
+            word = Console.ReadLine();
+            sub_word_lenght = Convert.ToInt32(Console.ReadLine());
+            sub_word = Console.ReadLine();
+        }
+        static void Initialize()
+        {
+            result = new int[word_lenght + 1, sub_word_lenght + 1];
+            for (int i = 0; i < word_lenght; i++)
+                result[i, 0] = 0;
+            for (int i = 0; i < sub_word_lenght; i++)
+                result[0, i] = 0;
+        }
+        static void Calculate()
+        {
+            for (int i = 1; i <= word_lenght; i++)
+            {
+                for (int j = 1; j <= sub_word_lenght; j++)
+                {
+                    if (word[i - 1] == sub_word[j - 1])
+                        result[i, j] = result[i - 1, j - 1] + 1;
+                    else
+                        result[i, j] = Math.Max(result[i - 1, j], result[i, j - 1]);
+                }
+            }
+        }
+    }
     class Program
     {
         static void Main(string[] args)
         {
-            int D, n, m;
-            string u, v;
-            D = Convert.ToInt32(Console.ReadLine());
-            for (int i = 0; i < D; i++)
+            int tests = Convert.ToInt32(Console.ReadLine());
+            for (int i = 0; i < tests; i++)
             {
-                n = Convert.ToInt32(Console.ReadLine());
-                u = Console.ReadLine();
-                m = Convert.ToInt32(Console.ReadLine());
-                v = Console.ReadLine();
-                Console.WriteLine(Najdluzszy(n, u, m, v));
+                Console.WriteLine(Substring_Calculator.Find_Longest_Substring_Lenght());
             }
-        }
-        static int Najdluzszy(int n, string u, int m, string v)
-        {
-            int[,] vs = new int[n+1, m+1];
-            for (int i = 0; i < n; i++)
-                vs[i, 0] = 0;
-            for (int i = 0; i < m; i++)
-                vs[0, i] = 0;
-
-            for (int i = 1; i <= n; i++)
-            {
-                for (int j = 1; j <= m; j++)
-                {
-                    if (u[i - 1] == v[j - 1])
-                        vs[i, j] = vs[i - 1, j - 1] + 1;
-                    else
-                        vs[i, j] = Math.Max(vs[i - 1, j], vs[i, j - 1]);
-                }
-            }
-            return vs[n,m];
         }
     }
 }
