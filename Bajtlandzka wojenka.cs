@@ -4,48 +4,56 @@ using System;
 
 namespace ETI07E1___Bajtlandzka_wojenka
 {
+    static class Fairyland_war
+    {
+        static bool[] cards;
+        const int amount_of_cards = 52;
+        public static void Write_Number_Of_Wins()
+        {
+            Mark_Owned_Cards();
+            Console.WriteLine(Count_Wins());
+        } 
+        static void Mark_Owned_Cards()
+        {
+            cards = new bool[amount_of_cards + 1];
+            int[] input = Load_Input();
+            //pleyer owns half of cards in game
+            for (int i = 0; i < amount_of_cards / 2; i++)
+                cards[input[i]] = true;
+        }
+        static int[] Load_Input()
+        {
+            int[] result = new int[amount_of_cards / 2];
+            string[] input = Console.ReadLine().Split(' ');
+            for (int i = 0; i < amount_of_cards / 2; i++)
+                result[i] = Convert.ToInt32(input[i]);
+
+            return result;
+        }
+
+        static int Count_Wins()
+        {
+            int wins = 0, amount_of_enemy_cards = 0;
+            for (int i = 1; i <= amount_of_cards; i++)
+            {
+                if (!cards[i])
+                {
+                    amount_of_enemy_cards++;
+                }
+                else if(amount_of_enemy_cards > 0)
+                {
+                    amount_of_enemy_cards--;
+                    wins++;
+                }
+            }
+            return wins;
+        }
+    }
     class Program
     {
         static void Main(string[] args)
         {
-            bool[] karty = new bool[53];
-            string temp = Console.ReadLine();
-            string[] wejscie = temp.Split(' ');
-            int zwyciestwa = 0, maxx = 53, j;
-
-            for (int i = 0; i < 26; i++)
-            {
-                karty[Convert.ToInt32(wejscie[i])] = true;
-            }
-            karty[0] = true;
-
-            for (int i = 51; i > 0; i--)
-            {
-                if (!karty[i])
-                {
-                    for (j = i; j < maxx; j++)
-                    {
-                        if (karty[j])
-                        {
-                            karty[j] = false;
-                            zwyciestwa++;
-                            break;
-                        }
-                    }
-                    if (j == 52)
-                    {
-                        for (j = 0; j < i; j++)
-                        {
-                            if (karty[j])
-                            {
-                                karty[j] = false;
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-            Console.WriteLine(zwyciestwa);
+            Fairyland_war.Write_Number_Of_Wins();
         }
     }
 }
